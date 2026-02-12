@@ -142,9 +142,10 @@ class ConnectionManager:
 				return await self.broadcast_table_update(
 					base_name,info_gene)
 			except:
-				print(traceback.format_exc())
+				error_format = traceback.format_exc()
+				print(error_format)
 				return await self._send_error(websocket, request_id, 
-					"Erreur lors de la sync",data)
+					"Erreur lors de la sync",data,error_format = error_format)
 
 		if action == "trafic":
 			try:
@@ -160,9 +161,10 @@ class ConnectionManager:
 				return await self.broadcast_table_update(
 					base_name,info_gene)
 			except:
-				print(traceback.format_exc())
+				error_format = traceback.format_exc()
+				print(error_format)
 				return await self._send_error(websocket, request_id, 
-					action,data)
+					action,data,error_format = error_format)
 
 
 		if action == "get_sync":
@@ -177,9 +179,10 @@ class ConnectionManager:
 				return await self._send_ok(websocket,
 					request_id,action,data)
 			except:
-				print(traceback.format_exc())
+				error_format = traceback.format_exc()
+				print(error_format)
 				return await self._send_error(websocket, request_id, 
-					action)
+					action,error_format = error_format)
 
 		return await self._send_error(websocket, request_id, "Unknown action")
 
@@ -272,10 +275,11 @@ class ConnectionManager:
 		}
 		await self._safe_send(ws, dic)
 
-	async def _send_error(self, ws, request_id, action, data = {}):
+	async def _send_error(self, ws, request_id, action, data = {}, error_format = str()):
 		await self._safe_send(ws, {
 			"request_id": request_id,
 			"status": "error",
+			"error_format":error_format,
 			"action": action,
 			"result":data
 		})
@@ -305,6 +309,7 @@ class ConnectionManager:
 			m = "0"+m
 		text = f"{d}-{m}-{y}"
 		return text
+
 
 
 
