@@ -5,3 +5,5 @@ sqlalchemy
 python-dotenv
 pydantic
 python-multipart
+uvicorn[standard]
+websocket
