@@ -166,11 +166,13 @@ class ConnectionManager:
 
 
 		if action == "get_sync":
+			print(msg)
 			try:
 				date = msg.get("last_date").strip()
 				hour = msg.get('last_hour').strip()
 				data = await asyncio.to_thread(self.th_base_hand.get_sync_message(
 					base_name,date,hour))
+				print(data)
 
 				return await self._send_ok(websocket,
 					request_id,action,data)
@@ -303,5 +305,6 @@ class ConnectionManager:
 			m = "0"+m
 		text = f"{d}-{m}-{y}"
 		return text
+
 
 
