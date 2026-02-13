@@ -131,7 +131,7 @@ class ConnectionManager:
 					th_msg = data[id]
 					th_msg['base_name'] = base_name
 					th_msg['request_id'] =  request_id
-					await asyncio.to_thread(self.th_base_hand.message_handler(th_msg))
+					await asyncio.to_thread(self.th_base_hand.message_handler,th_msg)
 
 				info_gene = {
 					"request_id": request_id,
@@ -151,7 +151,7 @@ class ConnectionManager:
 			try:
 				data['base_name'] = base_name
 				data['request_id'] =  request_id
-				await asyncio.to_thread(self.th_base_hand.message_handler(data))
+				await asyncio.to_thread(self.th_base_hand.message_handler,data)
 				info_gene = {
 					"request_id": request_id,
 					"status": "ok",
@@ -172,8 +172,8 @@ class ConnectionManager:
 			try:
 				date = msg.get("last_date").strip()
 				hour = msg.get('last_hour').strip()
-				data = await asyncio.to_thread(self.th_base_hand.get_sync_message(
-					base_name,date,hour))
+				data = await asyncio.to_thread(self.th_base_hand.get_sync_message,
+					base_name,date,hour)
 				print(data)
 
 				return await self._send_ok(websocket,
@@ -309,6 +309,7 @@ class ConnectionManager:
 			m = "0"+m
 		text = f"{d}-{m}-{y}"
 		return text
+
 
 
 
